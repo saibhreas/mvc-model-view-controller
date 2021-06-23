@@ -1,40 +1,48 @@
 const path = require('path');
 const express = require('express');
-const session = require('express-session');
-const exphbs = require('express-handlebars');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const axios = require('axios').default;
-
+// Routes
 const routes = require('./controllers');
-const sequelize = require('./config/connection');
+// Sessions
+const session = require('express-session');
+// Handlebars
+const exphbs = require('express-handlebars');
 const helpers = require('./utils/helpers');
 
+// Setup express app
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
+const sequelize = require('./config/config');
+// Session store using sequelize to store session data
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+// Set up session middleware
 const sess = {
   secret: 'Super secret secret',
   cookie: {},
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
-    db: sequelize,
-  }),
+    db: sequelize
+  })
 };
-
 app.use(session(sess));
 
+// Handlebars
 const hbs = exphbs.create({ helpers });
-
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+// Setup request data parser middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+// Set static content to the public foler
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Setup routing middleware
 app.use(routes);
 
-sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log('Now listening'));
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}!`);
+  sequelize.sync({ force: false });
 });

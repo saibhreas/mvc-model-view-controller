@@ -1,65 +1,65 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
-// CREATE new user
+// URL: /api/user
 router.post('/', async (req, res) => {
   try {
-    const dbUserData = await User.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
+    const newUser = await User.create({
+      // TODO: SET USERNAME TO USERNAME SENT IN REQUEST
+
+      // TOD: SET PASSWORD TO PASSWORD SENT IN REQUEST
     });
 
     req.session.save(() => {
-      req.session.loggedIn = true;
+      // TODO: SET USERID IN REQUEST SESSION TO ID RETURNED FROM DATABASE
 
-      res.status(200).json(dbUserData);
+      // TODO: SET USERNAME IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
+
+      // TODO: SET LOGGEDIN TO TRUE IN REQUEST SESSION
+
+      res.json(newUser);
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
 
-// Login
+
+// URL: /api/user/login
 router.post('/login', async (req, res) => {
   try {
-    const dbUserData = await User.findOne({
+    const user = await User.findOne({
       where: {
-        email: req.body.email,
+        username: req.body.username,
       },
     });
 
-    if (!dbUserData) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password. Please try again!' });
+    if (!user) {
+      res.status(400).json({ message: 'No user account found!' });
       return;
     }
 
-    const validPassword = await dbUserData.checkPassword(req.body.password);
+    const validPassword = user.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password. Please try again!' });
+      res.status(400).json({ message: 'No user account found!' });
       return;
     }
 
     req.session.save(() => {
-      req.session.loggedIn = true;
+      // TODO: SET USERID IN REQUEST SESSION TO ID RETURNED FROM DATABASE
 
-      res
-        .status(200)
-        .json({ user: dbUserData, message: 'You are now logged in!' });
+      // TODO: SET USERNAME IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
+
+      // TODO: SET LOGGEDIN TO TRUE IN REQUEST SESSION
+
+      res.json({ user, message: 'You are now logged in!' });
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    res.status(400).json({ message: 'No user account found!' });
   }
 });
 
-// Logout
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {

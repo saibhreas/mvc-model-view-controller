@@ -1,54 +1,25 @@
-$(document).ready(() => {
-  // Getting references to our form and input
-  const signUpBtn = $("#sign-up");
-  const nameInput = $("input#name-input");
-  const emailInput = $("input#email-input");
- 
+const signupFormHandler = async function(event) {
+  event.preventDefault();
 
+  const usernameEl = document.querySelector('#username-input-signup');
+  const passwordEl = document.querySelector('#password-input-signup');
 
-  // When the signup button is clicked, we validate the email and password are not blank
-
-  signUpBtn.on("click", event => {
-    const userData = {
-      name: nameInput.val().trim(),
-      email: emailInput.val().trim(),
-      password: passwordInput.val().trim()
-    };
-
-    if (!userData.name || !userData.email || !userData.password) {
-      handleLoginErr({ message: 'Missing values for required fields' });
-      return;
-    }
-    // Call signUp
-    signUpUser(userData.name, userData.email, userData.password);
+  const response = await fetch('/api/user', {
+    method: 'POST',
+    body: JSON.stringify({
+      username: usernameEl.value,
+      password: passwordEl.value,
+    }),
+    headers: { 'Content-Type': 'application/json' },
   });
 
-  // Does a post to the signup route. If successful, we are redirected to the members page
-  // Otherwise we log any errors
-  function signUpUser(name, email, password) {
-    clearError();
-
-    $.post("/api/auth/signup", {
-      name: name,
-      email: email,
-      password: password
-    })
-      .then(data => {
-        console.log("signUpUser", data);
-        // Empty out form fields only if request is succesful
-        nameInput.val("");
-        emailInput.val("");
-        passwordInput.val("");
-        window.location.replace("/where2go");
-      })
-      .catch(err => handleLoginErr(err.responseJSON));
+  if (response.ok) {
+    document.location.replace('/dashboard');
+  } else {
+    alert('Failed to sign up');
   }
+};
 
-  // Show error 
-  function handleLoginErr(err) {
-    console.log("handler Signup 500");
-    
-  }
-
-  
-});
+document
+  .querySelector('#signup-form')
+  .addEventListener('submit', signupFormHandler);
