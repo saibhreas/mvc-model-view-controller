@@ -31,7 +31,7 @@ Comment.belongsTo(Post, {
   foreignKey: 'postId',
   onDelete: 'CASCADE'
 });
-
+console.log ("index ran");
 module.exports = {
   User,
   Comment,

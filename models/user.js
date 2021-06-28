@@ -48,6 +48,7 @@ User.init(
     underscored: true,
     modelName: 'User'
   }
+  
 );
-
+console.log ("user initted");
 module.exports = User;

@@ -12,5 +12,5 @@ Post.init(
     sequelize
   }
 );
-
+console.log ('post initted');
 module.exports = Post;

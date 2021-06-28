@@ -5,7 +5,14 @@ const { Post, Comment, User } = require('../models/');
 router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
-      include: [User],
+      attributes:[
+        'title',
+        'body',
+      ],
+      include: [
+        User,
+        Comment
+      ]
     });
 
     const posts = postData.map((post) => post.get({ plain: true }));
@@ -19,13 +26,16 @@ router.get('/', async (req, res) => {
 // get single post
 router.get('/post/:id', async (req, res) => {
   try {
-    const postData = await Post.findByPk(
-      // TODO: YOUR CODE HERE
-    );
+    const postData = await Post.findByPk(req.params.id,
+       {
+        include: [
+          User, Comment
+        ],
+    });
 
     if (postData) {
       const post = postData.get({ plain: true });
-
+      console.log ("single post success, post id = ", req.params.id);
       res.render('single-post', { post });
     } else {
       res.status(404).end();

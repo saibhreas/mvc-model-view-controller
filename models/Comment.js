@@ -4,7 +4,7 @@ const sequelize = require('../config/config');
 class Comment extends Model {}
 
 Comment.init(
-  {
+    {
     body: {
       type: DataTypes.STRING,
       allowNull: false
@@ -14,5 +14,5 @@ Comment.init(
     sequelize
   }
 );
-
+console.log ("comments initted");
 module.exports = Comment;
