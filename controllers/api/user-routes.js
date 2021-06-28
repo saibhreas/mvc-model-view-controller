@@ -6,17 +6,21 @@ router.post('/', async (req, res) => {
   try {
     const newUser = await User.create({
       // TODO: SET USERNAME TO USERNAME SENT IN REQUEST
-
+      username: req.body.username,
       // TOD: SET PASSWORD TO PASSWORD SENT IN REQUEST
+      password: req.body.password,
     });
+    console.log ("new user named ", newUser.username)
 
     req.session.save(() => {
       // TODO: SET USERID IN REQUEST SESSION TO ID RETURNED FROM DATABASE
-
+      req.session.userId= newUser.id;
+      console.log ("Nrew user id ", newUser.id);
       // TODO: SET USERNAME IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
-
+      req.session.username = newUser.username;
+      console.log("New user is now Session user name: ",newUser.name)
       // TODO: SET LOGGEDIN TO TRUE IN REQUEST SESSION
-
+      req.session.loggedIn = true;
       res.json(newUser);
     });
   } catch (err) {
@@ -48,10 +52,11 @@ router.post('/login', async (req, res) => {
 
     req.session.save(() => {
       // TODO: SET USERID IN REQUEST SESSION TO ID RETURNED FROM DATABASE
-
+      req.sessionuserId = user.id;
       // TODO: SET USERNAME IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
-
+      req.session.username = newUser.username;
       // TODO: SET LOGGEDIN TO TRUE IN REQUEST SESSION
+      req.session.loggedIn = true;
 
       res.json({ user, message: 'You are now logged in!' });
     });
