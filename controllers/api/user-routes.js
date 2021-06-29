@@ -52,9 +52,11 @@ router.post('/login', async (req, res) => {
 
     req.session.save(() => {
       // TODO: SET USERID IN REQUEST SESSION TO ID RETURNED FROM DATABASE
-      req.sessionuserId = user.id;
+      req.session.userId = user.id;
+
       // TODO: SET USERNAME IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
-      req.session.username = newUser.username;
+      req.session.username = user.username;
+
       // TODO: SET LOGGEDIN TO TRUE IN REQUEST SESSION
       req.session.loggedIn = true;
 
