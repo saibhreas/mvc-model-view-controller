@@ -12,7 +12,7 @@ const helpers = require('./utils/helpers');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const sequelize = require('./config/config');
+const sequelize = require('./config/connection');
 // Session store using sequelize to store session data
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
