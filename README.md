@@ -2,6 +2,8 @@
 ### Apache Liscense
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+![screenshot}](./public/img/screen.png)
+
 ### Description:
   
   Example of software pattern whereby the user, uses information porvided, that in turn maipulate the model, that the users sees.  Typically a 3 interconnected elements.
