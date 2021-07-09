@@ -12,6 +12,12 @@ const helpers = require('./utils/helpers');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Setup request data parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+// Set static content to the public foler
+app.use(express.static(path.join(__dirname, 'public')));
+
 const sequelize = require('./config/connection');
 // Session store using sequelize to store session data
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -33,11 +39,8 @@ const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-// Setup request data parser middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-// Set static content to the public foler
-app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 // Setup routing middleware
 app.use(routes);
