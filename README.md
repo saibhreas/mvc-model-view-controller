@@ -5,6 +5,7 @@
 ![screenshot](./public/img/screen.png)
 
 #### heroku name ⬢ limitless-garden-68234
+Heroku Link for techBlog: https://git.heroku.com/limitless-garden-68234.git
 ### Description:
   
   Example of software pattern whereby the user, uses information porvided, that in turn maipulate the model, that the users sees.  Typically a 3 interconnected elements.
@@ -31,3 +32,6 @@
   * express-session (npm install express-session) 
   * connect-session (npm install connect-session-sequelize)
   * axios ( npm install axios)
+
+##### Heroku lesson:
+heroku is case sensative and github is not.  Corrections made to file names changing captialization to lowercase and viseversa
